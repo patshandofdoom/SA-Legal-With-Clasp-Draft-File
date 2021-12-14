@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>Event Details Missing</title>
+     <script>
+        $(document).ready(function(){
+        });
+        function changeEvent() {
+            google.script.run.withSuccessHandler()
+                .changeEvent(
+                   $('#videoconferenceDetails').val()
+                );
+             };
+    </script>
+  </head>
+  <body>
+    <form id="eventChange" onsubmit="changeEvent()">
+      <h2>It appears that you are trying to change this event from an in=person meeting to a videoconference. Please add the videoconference details below</h2>
+      <br>
+      <textarea id="videoconferenceDetails" rows="10"></textarea>
+      <br>
+      <button class="btn" type="submit">Submit</button>
+      <button class="btn" type="cancel">Cancel</button>
+    </form>
+  </body>
+</html>
