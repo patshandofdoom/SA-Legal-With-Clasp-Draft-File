@@ -32,15 +32,20 @@ function getNewDepositionData(orderedBy,orderedByEmail, witnessName, caseStyle, 
   };
   
   //#####################
+  //#####################
+  //#####################
+  //function to get the next unique key
+
+  //#####################
+  //#####################
+  //#####################
 
   // Begins construction of deposition information array
   var newScheduledDepo = ['🟢 Current', depoDate, witnessName, orderedBy, orderedByEmail, caseStyle, depoTime, firm, attorney, firmAddress1, firmAddress2, city, state, zip, attorneyPhone, attorneyEmail, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone,copyEmail,,,,,conferenceDetails];
 
-  //#####################
-
-
   // Formats the array for Google Sheets setValue() method, calls printing function
   Logger.log([orderedBy,orderedByEmail, witnessName, caseStyle, depoDate, depoHour, depoMinute, amPm, firm, attorney, attorneyEmail, attorneyPhone, firmAddress1, firmAddress2, city, state, zip, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone, copyEmail, sendConfirmation, confirmationCC, videoPlatform, salsAccount, conferenceDetails,"getNewDepositionData"]);
+
   var formattedArray = [newScheduledDepo];
   printNewDeposition(formattedArray);
   SpreadsheetApp.getActiveSpreadsheet().toast('➕️ Depo added to Schedule a depo sheet');
@@ -353,6 +358,8 @@ function updateCurrentList (depoDate, witnessName, firm, city, courtReporter, vi
   
   // Prints values to Current List Sheet.
   currentListSheet.insertRowBefore(2);
+  var currentSheetPaste = [[depoDate,witnessName,firm,city,,hasCourtReporter,courtReporter,hasVideo,,pip,,videographer]]
+  currentListSheet.getRange(2,1,)
   currentListSheet.getRange('A2').setValue(depoDate);
   currentListSheet.getRange('B2').setValue(witnessName);
   currentListSheet.getRange('C2').setValue(firm);
@@ -534,6 +541,22 @@ function updateSheetsOnTimeOrDateEdit(editRow) {
 ////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// UTILITIES /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
+
+function defineScriptProperties(){
+  let documentProperties = PropertiesService.getDocumentProperties();
+  let deposheet = SpreadsheetApp.getActive().getSheetByName("Schedule a depo");
+  let uniqueKeys = deposheet.getRange(2,42,deposheet.getLastRow(),1).getValues();
+  uniqueKeys=uniqueKeys[0];
+  Logger.log(Math.max(uniqueKeys));
+  documentProperties.setProperty('nextUniqueKey', Math.max(uniqueKeys));
+
+}
+
+function iterateUniqueKey(){
+  let documentProperties = PropertiesService.getDocumentProperties();
+  let currentKey = documentProperties.getProperty('nextUniqueKey');
+  documentProperties.setProperty('nextUniqueKey', currentKey++);
+}
 
 /** Prints an array to the final row of the "Schedule a depo" sheet
 @param {array} 1d array ordered to align with the columns in "Schedule a depo."

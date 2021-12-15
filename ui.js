@@ -38,7 +38,7 @@ function onOpen (e) {
 
 // Launches the new orderer sidebar (triggered from modal).
 function launchNewOrdererSidebar() {
-  var template = HtmlService.createTemplateFromFile('newOrderer');
+  var template = HtmlService.createTemplateFromFile('html/newOrderer');
   template.copyAttys = returnCopyAttys();
   template.previousLocations = returnLocations();
   var html = template.evaluate().setTitle('🆕 New Deposition from a New Orderer');
@@ -47,7 +47,7 @@ function launchNewOrdererSidebar() {
 
 // Launches the new orderer deposition modal.
 function initiateNewOrdererModal() {
-  var html = HtmlService.createHtmlOutputFromFile('newOrdererM')
+  var html = HtmlService.createHtmlOutputFromFile('html/newOrdererM')
     .setWidth(350)
     .setHeight(160);
   SpreadsheetApp.getUi() 
@@ -56,7 +56,7 @@ function initiateNewOrdererModal() {
 
 // Initiates the repeat orderer modal.
 function initiateRepeatOrdererModal() {
-  var html = HtmlService.createHtmlOutputFromFile('repeatOrdererM')
+  var html = HtmlService.createHtmlOutputFromFile('html/repeatOrdererM')
     .setWidth(350)
     .setHeight(160);
   SpreadsheetApp.getUi() 
@@ -65,7 +65,7 @@ function initiateRepeatOrdererModal() {
 
 // Creates the repeat orderer sidebar (triggered from modal).
 function launchRepeatOrdererSidebar() {
-  var template = HtmlService.createTemplateFromFile('repeatOrderer');
+  var template = HtmlService.createTemplateFromFile('html/repeatOrderer');
   template.orderers = returnPreviousOrderers();
   template.previousLocations = returnLocations();
   template.copyAttys = returnCopyAttys();
@@ -75,7 +75,7 @@ function launchRepeatOrdererSidebar() {
 
 // Launches resending confirmation email modal.
 function launchConfEmailModal() {
-  var html = HtmlService.createHtmlOutputFromFile('resendConfM')
+  var html = HtmlService.createHtmlOutputFromFile('html/resendConfM')
     .setWidth(350)
     .setHeight(105);
   SpreadsheetApp.getUi() 
