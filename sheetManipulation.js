@@ -30,18 +30,12 @@ function getNewDepositionData(orderedBy,orderedByEmail, witnessName, caseStyle, 
   if (videoPlatform.length > 2) {
     locationFirm = 'via ' + videoPlatform;
   };
-  
-  //#####################
-  //#####################
-  //#####################
-  //function to get the next unique key
 
-  //#####################
-  //#####################
-  //#####################
+  //function to get the next unique key
+  let uniqueKey = iterateUniqueKey();
 
   // Begins construction of deposition information array
-  var newScheduledDepo = ['🟢 Current', depoDate, witnessName, orderedBy, orderedByEmail, caseStyle, depoTime, firm, attorney, firmAddress1, firmAddress2, city, state, zip, attorneyPhone, attorneyEmail, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone,copyEmail,,,,,conferenceDetails];
+  let newScheduledDepo = ['🟢 Current', depoDate, witnessName, orderedBy, orderedByEmail, caseStyle, depoTime, firm, attorney, firmAddress1, firmAddress2, city, state, zip, attorneyPhone, attorneyEmail, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone,copyEmail,,,,,conferenceDetails,uniqueKey];
 
   // Formats the array for Google Sheets setValue() method, calls printing function
   Logger.log([orderedBy,orderedByEmail, witnessName, caseStyle, depoDate, depoHour, depoMinute, amPm, firm, attorney, attorneyEmail, attorneyPhone, firmAddress1, firmAddress2, city, state, zip, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone, copyEmail, sendConfirmation, confirmationCC, videoPlatform, salsAccount, conferenceDetails,"getNewDepositionData"]);
@@ -125,6 +119,10 @@ function getRepeatDepositionData(previousOrderer, witnessName, caseStyle, depoDa
     locationFirm = 'via ' + videoPlatform;
   };
 
+  //function to get the next unique key
+  let uniqueKey = iterateUniqueKey();
+
+  //pushes all info into the array that we want to store
   newScheduledDepo.push(locationFirm); 
   newScheduledDepo.push(locationAddress1); 
   newScheduledDepo.push(locationAddress2); 
@@ -145,12 +143,11 @@ function getRepeatDepositionData(previousOrderer, witnessName, caseStyle, depoDa
   newScheduledDepo.push(copyZip); 
   newScheduledDepo.push(copyPhone);
   newScheduledDepo.push(copyEmail);
-  //#####################
   newScheduledDepo.push();
   newScheduledDepo.push();
   newScheduledDepo.push();
   newScheduledDepo.push(conferenceDetails);
-  //#####################
+  newScheduledDepo.push(uniqueKey);
 
   // Formats the array for Google Sheets setValue() method, calls printing function
   Logger.log([previousOrderer, witnessName, caseStyle, depoDate, depoHour, depoMinute, amPm, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone, copyEmail, sendConfirmation, confirmationCC, videoPlatform, salsAccount, conferenceDetails,"getRepeatDepositionData"]);
@@ -358,17 +355,8 @@ function updateCurrentList (depoDate, witnessName, firm, city, courtReporter, vi
   
   // Prints values to Current List Sheet.
   currentListSheet.insertRowBefore(2);
-  var currentSheetPaste = [[depoDate,witnessName,firm,city,,hasCourtReporter,courtReporter,hasVideo,,pip,,videographer]]
-  currentListSheet.getRange(2,1,)
-  currentListSheet.getRange('A2').setValue(depoDate);
-  currentListSheet.getRange('B2').setValue(witnessName);
-  currentListSheet.getRange('C2').setValue(firm);
-  currentListSheet.getRange('D2').setValue(city);
-  currentListSheet.getRange('F2').setValue(hasCourtReporter);
-  currentListSheet.getRange('G2').setValue(courtReporter);
-  currentListSheet.getRange('H2').setValue(hasVideo);
-  currentListSheet.getRange('J2').setValue(pip);
-  currentListSheet.getRange('L2').setValue(videographer);
+  let currentSheetPaste = [[depoDate,witnessName,firm,city,,hasCourtReporter,courtReporter,hasVideo,,pip,,videographer]];
+  currentListSheet.getRange(2,1,1,currentSheetPaste[0].length).setValues(currentSheetPaste);
   
   // Sorts the current list by date (first column) (disabled -- it messes with hidden rows)
   // currentListSheet.getRange(2, 1, currentListSheet.getLastRow() + 1, currentListSheet.getLastColumn()).sort(1)
@@ -542,7 +530,7 @@ function updateSheetsOnTimeOrDateEdit(editRow) {
 //////////////////////////////////// UTILITIES /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
 
-function defineScriptProperties(){
+function defineUniqueKeyProperty(){
   let documentProperties = PropertiesService.getDocumentProperties();
   let deposheet = SpreadsheetApp.getActive().getSheetByName("Schedule a depo");
   let uniqueKeys = deposheet.getRange(2,42,deposheet.getLastRow(),1).getValues();
@@ -555,8 +543,17 @@ function defineScriptProperties(){
 function iterateUniqueKey(){
   let documentProperties = PropertiesService.getDocumentProperties();
   let currentKey = documentProperties.getProperty('nextUniqueKey');
-  documentProperties.setProperty('nextUniqueKey', currentKey++);
+  currentKey++;
+  documentProperties.setProperty('nextUniqueKey', currentKey);
+  return currentKey
 }
+
+
+function checkUniqueKeyValue(){
+    Logger.log(PropertiesService.getDocumentProperties().getProperty('nextUniqueKey'))
+
+}
+
 
 /** Prints an array to the final row of the "Schedule a depo" sheet
 @param {array} 1d array ordered to align with the columns in "Schedule a depo."

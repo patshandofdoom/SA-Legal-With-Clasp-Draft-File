@@ -1,4 +1,3 @@
-
 ////////////////////////////////////////////////////////////////////////////////////
 ///////////////// INTERACTIONS BETWEEN SHEET AND SERVICES CALENDAR /////////////////
 ////////////////////////////////////////////////////////////////////////////////////
@@ -168,15 +167,6 @@ function editDepoDate(e, ss, SACal, depoSheet, editColumn, editRow) {
     var title = eventstrings[0];
     var location = eventstrings[1];
     var description = eventstrings[2];
-    //#####################################
-    /*
-    // Deletes old event and adds a new one at the correct date.
-    var title = SACal.getEventById(eventId).getTitle();
-    var description = SACal.getEventById(eventId).getDescription();
-    var location = SACal.getEventById(eventId).getLocation();
-    */
-    //#####################################
-
 
     SACal.getEventById(eventId).deleteEvent();
     var event = SACal.createEvent(title, newTime, newTime,{ description: description, location: location });
@@ -228,13 +218,6 @@ function editDepoTime(e, ss, SACal, depoSheet, editColumn, editRow) {
       var title = eventstrings[0];
       var location = eventstrings[1];
       var description= eventstrings[2];
-      //#####################################
-      /*
-      var title = SACal.getEventById(eventId).getTitle();
-      var description = SACal.getEventById(eventId).getDescription();
-      var location = SACal.getEventById(eventId).getLocation();
-      */
-      //#####################################
 
       SACal.getEventById(eventId).deleteEvent();
       var event = SACal.createEvent(title, newTime, newTime,{ description: description, location: location });
@@ -285,43 +268,6 @@ function editDepoGeneral(e, ss, SACal, depoSheet, editColumn, editRow) {
     var depoTime = amPmTo24(depoSheet.getRange(editRow, 7).getValue());
 
     var formattedDateAndHour = formattedDate + ' ' + depoTime;
-
-    //###################################
-    /*
-    var services = depoSheet.getRange(editRow, 24).getValue();
-    var firm = depoSheet.getRange(editRow, 8).getValue();
-    var witnessName = depoSheet.getRange(editRow, 3).getValue();
-    var depoTime = amPmTo24(depoSheet.getRange(editRow, 7).getValue());
-    var monthNumber = monthToMm(rawDepoDate.substring(4, 7));
-    var dayNumber = intDayNumber.toString();
-    var yearNumber = rawDepoDate.substring(11, 15);
-    var dashDate = yearNumber + '-' + monthNumber + '-' + dayNumber;
-    var formattedDate = toStringDate(dashDate);
-    var formattedDateAndHour = formattedDate + ' ' + depoTime;
-    var locationFirm = depoSheet.getRange(editRow, 3).getValue();
-    var locationAddress1 = depoSheet.getRange(editRow, 17).getValue();
-    var locationAddress2 = depoSheet.getRange(editRow, 18).getValue();
-    var locationCity = depoSheet.getRange(editRow, 19).getValue();
-    var locationState = depoSheet.getRange(editRow, 20).getValue();
-    var locationZip = depoSheet.getRange(editRow, 21).getValue(); 
-    var caseStyle = depoSheet.getRange(editRow, 21).getValue(); 
-    var orderedBy = depoSheet.getRange(editRow, 4).getValue(); 
-    var courtReporter = depoSheet.getRange(editRow, 25).getValue(); 
-    var videographer = depoSheet.getRange(editRow, 26).getValue(); 
-    var pip = depoSheet.getRange(editRow, 27).getValue(); 
-    var attorney = depoSheet.getRange(editRow, 9).getValue(); 
-    var firmAddress1 = depoSheet.getRange(editRow, 10).getValue(); 
-    var firmAddress2 = depoSheet.getRange(editRow, 11).getValue(); 
-    var city = depoSheet.getRange(editRow, 12).getValue(); 
-    var state = depoSheet.getRange(editRow, 13).getValue(); 
-    var zip = depoSheet.getRange(editRow, 14).getValue(); 
-
-    // Creates event title and description.
-    var title = '(' + services + ')' + ' ' + firm + ' - ' + witnessName;
-    var depoLocation = locationFirm + ', ' + locationAddress1 + ' ' + locationAddress2 + ', ' + locationCity + ' ' + locationState + ' ' + locationZip;
-    var description = 'Witness Name: ' + witnessName + '\nCase Style: ' + caseStyle + '\nOrdered by: ' + orderedBy + '\n\nCSR: ' + courtReporter + '\nVideographer: ' + videographer + '\nPIP: ' + pip + '\n\nLocation: ' + '\n' + depoLocation + '\n\nOur client:\n' + attorney + '\n' + firm + '\n' + firmAddress1 + ' ' + firmAddress2 + '\n' + city + ' ' + state + ' ' + zip;
-    */
-    //###################################
 
     // Adds the newly-updated deposition event to the Services calendar.
     var event = SACal.createEvent(title, 
@@ -526,8 +472,6 @@ function buildEventStrings(editRow){
 
 
   var returnvariable = [title, depoLocation, description];
-  //Logger.log(returnvariable);
-  //Logger.log(returnvariable[2]);
   return returnvariable;
 };
 

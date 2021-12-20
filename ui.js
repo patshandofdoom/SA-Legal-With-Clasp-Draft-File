@@ -92,20 +92,7 @@ function checkProperties(){
   Logger.log(properties);
 }
 
-//A function to run the getRepeatDepositionData function with dummy data. It will send an email to me
-function testMeeting(){
-  const date = new Date(2022, 06, 01);
-  //format as 2020-01-30
-  
-  var formattedDate = date.getFullYear()+"-"+("0"+(date.getMonth()+1)).slice(-2)+"-"+("0"+(date.getDate()+1)).slice(-2);
-  Logger.log(formattedDate)
-  //try{
-    getNewDepositionData('orderedBy','prichardson0874@gmail.com','#witnessName','caseStyle',formattedDate,10,30,'AM','firm','attorney','attorneyEmail','1234567','firmAddress1','firmAddress2','city','state','zip','locationFirm','locationAddress1','locationAddress2','locationCity','locationState','locationZip','locationPhone','services','courtReporter','videographer',false,'copyAttorney','copyFirm','copyAddress1','copyAddress2','copyCity','copyState','copyZip','copyPhone','copyEmail',true,'confirmationCC','videoPlatform','salsAccount','conferenceDetails\n conference details');
- //}
-  //catch (error) {
-  //Logger.log(error);
-  //}
-}
+
 
 function getAllEventDescriptions(){
   var ss = SpreadsheetApp.getActive();
