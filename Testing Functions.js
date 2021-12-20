@@ -1,4 +1,3 @@
-//Runs all sub-tests
 function overarchingTest() {
   Logger.log(testMeetingWithNew())
   Logger.log(testMeetingWithRepeat())
@@ -18,10 +17,12 @@ function testMeetingWithNew(){
   }
 }
 
+//does not work properly for some reason. variable line up with the function but it will no write data properly
 function testMeetingWithRepeat(){
   var formattedDate=formatDateForTests()
   try{
-   getRepeatDepositionData('prichardson0874@gmail.com','#witnessName','caseStyle', formattedDate, 10,30,'AM','firm','attorney', 'locationAddress1','locationAddress2','locationCity','locationState','locationZip','locationPhone','services','courtReporter','videographer',false,'copyAttorney','copyFirm','copyAddress1','copyAddress2','copyCity','copyState','copyZip','copyPhone','copyEmail', true,'confirmationCC','videoPlatform','salsAccount','conferenceDetails\n conference details');
+   getRepeatDepositionData('orderedBy','#witnessName','caseStyle', formattedDate, 10,30,'AM','firm','locationAddress1','locationAddress2','locationCity','locationState','locationZip','locationPhone','services','courtReporter','videographer',false,'copyAttorney','copyFirm','copyAddress1','copyAddress2','copyCity','copyState','copyZip','copyPhone','copyEmail', true,'confirmationCC','videoPlatform','salsAccount','conferenceDetails\n conference details');
+   Logger.log("getRepeatDepositionData worked without error");
     return "getRepeatDepositionData worked without error";
   }
   catch(error){
@@ -30,9 +31,16 @@ function testMeetingWithRepeat(){
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////  UTILITIES  ///////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 function formatDateForTests(){
   //format as 2020-01-30
-  const date = new Date(2022, 06, 01);
+  const date = new Date();
+  Logger.log(date)
   
   var formattedDate = date.getFullYear()+"-"+("0"+(date.getMonth()+1)).slice(-2)+"-"+("0"+(date.getDate()+1)).slice(-2);
   return formattedDate;

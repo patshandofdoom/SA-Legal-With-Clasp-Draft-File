@@ -35,7 +35,7 @@ function getNewDepositionData(orderedBy,orderedByEmail, witnessName, caseStyle, 
   let uniqueKey = iterateUniqueKey();
 
   // Begins construction of deposition information array
-  let newScheduledDepo = ['🟢 Current', depoDate, witnessName, orderedBy, orderedByEmail, caseStyle, depoTime, firm, attorney, firmAddress1, firmAddress2, city, state, zip, attorneyPhone, attorneyEmail, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone,copyEmail,,,,,conferenceDetails,uniqueKey];
+  var newScheduledDepo = ['🟢 Current', depoDate, witnessName, orderedBy, orderedByEmail, caseStyle, depoTime, firm, attorney, firmAddress1, firmAddress2, city, state, zip, attorneyPhone, attorneyEmail, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone,copyEmail,,,,,conferenceDetails,uniqueKey];
 
   // Formats the array for Google Sheets setValue() method, calls printing function
   Logger.log([orderedBy,orderedByEmail, witnessName, caseStyle, depoDate, depoHour, depoMinute, amPm, firm, attorney, attorneyEmail, attorneyPhone, firmAddress1, firmAddress2, city, state, zip, locationFirm, locationAddress1, locationAddress2, locationCity, locationState, locationZip, locationPhone, services, courtReporter, videographer, pip, copyAttorney, copyFirm, copyAddress1, copyAddress2, copyCity, copyState, copyZip, copyPhone, copyEmail, sendConfirmation, confirmationCC, videoPlatform, salsAccount, conferenceDetails,"getNewDepositionData"]);
@@ -46,7 +46,7 @@ function getNewDepositionData(orderedBy,orderedByEmail, witnessName, caseStyle, 
   
 
   // Adds deposition to the Current List Sheet
-  updateCurrentList (depoDate, witnessName, firm, city, courtReporter, videographer, pip);
+  updateCurrentList (depoDate, witnessName, firm, city, courtReporter, videographer, pip,uniqueKey);
   SpreadsheetApp.getActiveSpreadsheet().toast('🟢 Depo added to Current List sheet');
   
 
@@ -143,9 +143,10 @@ function getRepeatDepositionData(previousOrderer, witnessName, caseStyle, depoDa
   newScheduledDepo.push(copyZip); 
   newScheduledDepo.push(copyPhone);
   newScheduledDepo.push(copyEmail);
-  newScheduledDepo.push();
-  newScheduledDepo.push();
-  newScheduledDepo.push();
+  newScheduledDepo.push('');
+  newScheduledDepo.push('');
+  newScheduledDepo.push('');
+  newScheduledDepo.push('');
   newScheduledDepo.push(conferenceDetails);
   newScheduledDepo.push(uniqueKey);
 
@@ -156,7 +157,7 @@ function getRepeatDepositionData(previousOrderer, witnessName, caseStyle, depoDa
   SpreadsheetApp.getActiveSpreadsheet().toast('➕️ Depo added to Schedule a depo sheet');
   
   // Adds deposition to the Current List Sheet
-  updateCurrentList (depoDate, witnessName, infoFromPreviousOrderer[1], infoFromPreviousOrderer[4], courtReporter, videographer, pip);
+  updateCurrentList (depoDate, witnessName, infoFromPreviousOrderer[1], infoFromPreviousOrderer[4], courtReporter, videographer, pip,uniqueKey);
   SpreadsheetApp.getActiveSpreadsheet().toast('🟢 Depo added to Current List sheet');
   
   // Adds deposition information to Video Worksheet
@@ -325,7 +326,7 @@ function updateWorksheetsByRow () {
 /** Updates the Current List on addition of a new deposition.
 @params {depositionInformation} strings Deposition information received from the sidebar.
 */
-function updateCurrentList (depoDate, witnessName, firm, city, courtReporter, videographer, pip) {  
+function updateCurrentList (depoDate, witnessName, firm, city, courtReporter, videographer, pip, uniqueKey) {  
   var ss = SpreadsheetApp.getActive();
   var currentListSheet = ss.getSheetByName('Current List');
   
@@ -355,7 +356,7 @@ function updateCurrentList (depoDate, witnessName, firm, city, courtReporter, vi
   
   // Prints values to Current List Sheet.
   currentListSheet.insertRowBefore(2);
-  let currentSheetPaste = [[depoDate,witnessName,firm,city,,hasCourtReporter,courtReporter,hasVideo,,pip,,videographer]];
+  let currentSheetPaste = [[depoDate,witnessName,firm,city,,hasCourtReporter,courtReporter,hasVideo,,pip,,videographer,,,,,,,,,,,,,uniqueKey]];
   currentListSheet.getRange(2,1,1,currentSheetPaste[0].length).setValues(currentSheetPaste);
   
   // Sorts the current list by date (first column) (disabled -- it messes with hidden rows)
@@ -555,8 +556,8 @@ function checkUniqueKeyValue(){
 }
 
 
-/** Prints an array to the final row of the "Schedule a depo" sheet
-@param {array} 1d array ordered to align with the columns in "Schedule a depo."
+/** Prints an array to the second row of the "Schedule a depo" sheet
+@param {array} 2d array ordered to align with the columns in "Schedule a depo."
 */
 function printNewDeposition (array) {
   var ss = SpreadsheetApp.getActive();
