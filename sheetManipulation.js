@@ -530,7 +530,8 @@ function updateSheetsOnTimeOrDateEdit(editRow) {
 ////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// UTILITIES /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
-
+/**Initializes the unique key property to track it. This will find the highest unique key among the current keys and iterates 1.
+ */
 function defineUniqueKeyProperty(){
   let documentProperties = PropertiesService.getDocumentProperties();
   let deposheet = SpreadsheetApp.getActive().getSheetByName("Schedule a depo");
@@ -541,6 +542,8 @@ function defineUniqueKeyProperty(){
 
 }
 
+/**Gets the unique key property, iterates to the next unique key and returns it so that the deposition will have its own unique key.
+ */
 function iterateUniqueKey(){
   let documentProperties = PropertiesService.getDocumentProperties();
   let currentKey = documentProperties.getProperty('nextUniqueKey');
@@ -549,10 +552,9 @@ function iterateUniqueKey(){
   return currentKey
 }
 
-
+//Allows access to check the unique ey at any time
 function checkUniqueKeyValue(){
     Logger.log(PropertiesService.getDocumentProperties().getProperty('nextUniqueKey'))
-
 }
 
 
